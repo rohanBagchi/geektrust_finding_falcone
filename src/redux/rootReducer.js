@@ -1,5 +1,8 @@
-const default_state = {};
+import { combineReducers } from "redux";
+import VehicleDucks from "./VehicleDucks";
 
-export default function reducer(state = default_state, action) {
-    return state;
-}
+
+
+export default combineReducers({
+    vehicle_reducer: VehicleDucks
+});
