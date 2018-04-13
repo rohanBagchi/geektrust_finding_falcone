@@ -1,26 +1,48 @@
 import React, { Component } from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import PropTypes from 'prop-types';
+import NavBar from './NavBar';
+import './App.css';
 
 class App extends Component {
-    componentDidMount = () => {
+    componentWillMount = () => {
         this.props.fetchInitialAppData();
+    }
+
+    renderBody = () => {
+        if (this.props.has_error) {
+            return (
+                <div className="alert alert-info" role="alert">
+                    Some Error Occured. Please refresh.
+                </div>
+            );
+        }
+        return (
+            <div className="row">
+                <div className="col-md-12">
+                    Hello
+                </div>
+            </div>
+        );
     }
 
     render() {
         return (
-            <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <h1 className="App-title">Welcome to React</h1>
-                </header>
-                <p className="App-intro">
-                    To get started, edit <code>src/App.js</code> and save to
-                    reload.
-                </p>
+            <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <NavBar />
+                        {this.renderBody()}
+                    </div>
+                </div>
             </div>
         );
     }
+}
+
+App.propTypes = {
+    fetchInitialAppData: PropTypes.func.isRequired,
+    errors: PropTypes.object,
+    has_error: PropTypes.bool.isRequired,
 }
 
 export default App;
