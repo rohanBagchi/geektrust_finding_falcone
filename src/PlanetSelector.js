@@ -30,7 +30,6 @@ export default function PlanetSelector({ planets, selector, selected_planet, sel
 
     const handleSelect = e => {
         const planet = e.target.value;
-        console.log('selected planet', planet);
         selectPlanet(planet, selector);
     };
 
