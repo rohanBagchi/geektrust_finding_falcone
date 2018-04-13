@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import NavBar from './NavBar';
+import PlanetSelectorContainer from './PlanetSelectorContainer'
 import './App.css';
 
 class App extends Component {
@@ -18,8 +19,20 @@ class App extends Component {
         }
         return (
             <div className="row">
-                <div className="col-md-12">
-                    Hello
+                <div className="col-md-2">
+                    <PlanetSelectorContainer />
+                </div>
+                <div className="col-md-2">
+                    <PlanetSelectorContainer />
+                </div>
+                <div className="col-md-2">
+                    <PlanetSelectorContainer />
+                </div>
+                <div className="col-md-2">
+                    <PlanetSelectorContainer />
+                </div>
+                <div className="col-md-4 d-flex align-items-center justify-content-center">
+                    Time Taken: 0
                 </div>
             </div>
         );
@@ -31,6 +44,13 @@ class App extends Component {
                 <div className="row">
                     <div className="col-md-12">
                         <NavBar />
+                        <div className="row">
+                            <div className="col-md-12">
+                                <h3>
+                                    Select the planets you want to search in
+                                </h3>
+                            </div>
+                        </div>
                         {this.renderBody()}
                     </div>
                 </div>
