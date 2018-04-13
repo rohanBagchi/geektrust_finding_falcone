@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import PropTypes from 'prop-types';
 import NavBar from './NavBar';
-import PlanetSelectorContainer from './PlanetSelectorContainer'
+import PlanetSelectorContainer from './PlanetSelectorContainer';
+import { FormNames } from './redux/PlanetDucks';
 import './App.css';
 
 class App extends Component {
@@ -20,16 +21,16 @@ class App extends Component {
         return (
             <div className="row">
                 <div className="col-md-2">
-                    <PlanetSelectorContainer />
+                    <PlanetSelectorContainer selector={FormNames.FORM_1} />
                 </div>
                 <div className="col-md-2">
-                    <PlanetSelectorContainer />
+                    <PlanetSelectorContainer selector={FormNames.FORM_2} />
                 </div>
                 <div className="col-md-2">
-                    <PlanetSelectorContainer />
+                    <PlanetSelectorContainer selector={FormNames.FORM_3} />
                 </div>
                 <div className="col-md-2">
-                    <PlanetSelectorContainer />
+                    <PlanetSelectorContainer selector={FormNames.FORM_4} />
                 </div>
                 <div className="col-md-4 d-flex align-items-center justify-content-center">
                     Time Taken: 0
