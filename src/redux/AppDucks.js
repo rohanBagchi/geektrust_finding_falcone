@@ -1,6 +1,9 @@
 import { createAction } from "redux-actions";
 import keymirror from "keymirror";
-import { fetchInitialAppData as fetchInitialAppDataService } from './services/AppService';
+import {
+    fetchInitialAppData as fetchInitialAppDataService,
+    findfalcone as findFalconeService
+} from './services/AppService';
 import { setPlanets } from './PlanetDucks';
 import { setVehicles } from './VehicleDucks';
 
@@ -8,6 +11,7 @@ const AppDucksActionTypes = keymirror({
     APP_DUCKS_FETCH_INITIAL_APP_DATA: null,
     APP_DUCKS_SET_IS_LOADING: null,
     APP_DUCKS_HANDLE_INITIAL_LOAD_ERROR: null,
+    APP_DUCKS_FIND_FALCONE: null,
 });
 
 const initial_state = {
@@ -45,6 +49,16 @@ export const handleInitialLoadError = createAction(
         error
     })
 );
+
+export const findFalcone = createAction(
+    AppDucksActionTypes.APP_DUCKS_FIND_FALCONE,
+    (dispatch, planets, vehicles) => {
+        return findFalconeService(planets, vehicles)
+            .then(res => {
+
+            })
+    }
+)
 
 export default function reducer(state = initial_state, action) {
     switch (action.type) {

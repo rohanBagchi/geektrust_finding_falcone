@@ -56,6 +56,12 @@ class App extends Component {
         );
     }
 
+    handleSubmitBtnClick = () => {
+        if (!this.props.is_submit_btn_enabled) return;
+
+        this.props.findFalcone();
+    }
+
     renderContent = () => {
         if (this.props.is_loading) return <div>Loading..</div>;
         return (
@@ -70,7 +76,11 @@ class App extends Component {
                 {this.renderBody()}
                 <div className="row">
                     <div className="col-md-10 d-flex justify-content-center mt-4">
-                        <button type="button" className="btn btn-primary" disabled={!this.props.is_submit_btn_enabled}>
+                        <button
+                            onClick={this.handleSubmitBtnClick}
+                            type="button"
+                            className="btn btn-primary"
+                            disabled={!this.props.is_submit_btn_enabled}>
                             Find Falcone
                         </button>
                     </div>
@@ -100,6 +110,7 @@ App.propTypes = {
     has_error: PropTypes.bool.isRequired,
     is_submit_btn_enabled: PropTypes.bool.isRequired,
     time_taken: PropTypes.number.isRequired,
+    findFalcone: PropTypes.func.isRequired,
 }
 
 export default App;

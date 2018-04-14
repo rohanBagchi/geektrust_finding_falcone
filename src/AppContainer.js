@@ -1,6 +1,8 @@
 import { connect } from 'react-redux';
 import App from './App';
-import { fetchInitialAppData } from './redux/AppDucks'
+import { fetchInitialAppData, findFalcone } from './redux/AppDucks';
+import { getSelectedPlanets } from './PlanetSelectorContainer';
+import { getSelectedVehicles } from './VehicleSelectorContainer';
 
 function mapState(state) {
     return {
@@ -16,18 +18,28 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
-        fetchInitialAppData: () => dispatch(fetchInitialAppData(dispatch))
+        fetchInitialAppData: () => dispatch(fetchInitialAppData(dispatch)),
+        findFalcone: (planets, vehicles) => dispatch(findFalcone(dispatch, planets, vehicles)),
     }
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
     const { planets_form, vehicles_form, planets, vehicles } = stateProps;
+
+    const findFalcone = () => {
+        const planets = getSelectedPlanets(planets_form);
+        const vehicles = getSelectedVehicles(vehicles_form);
+        debugger;
+        dispatchProps.findFalcone(planets, vehicles);
+    };
+
     return {
         ...stateProps,
         ...dispatchProps,
         ...ownProps,
         is_submit_btn_enabled: isSubmitButtonEnabled(planets_form, vehicles_form),
-        time_taken: getTimeTaken({ planets_form, vehicles_form, planets, vehicles })
+        time_taken: getTimeTaken({ planets_form, vehicles_form, planets, vehicles }),
+        findFalcone
     };
 }
 
