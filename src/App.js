@@ -21,7 +21,7 @@ class App extends Component {
         }
         return (
             <Fragment>
-                <div className="row">
+                <div className="row mb-2">
                     <div className="col-md-2">
                         <PlanetSelectorContainer selector={FormNames.FORM_1} />
                     </div>
@@ -68,6 +68,13 @@ class App extends Component {
                     </div>
                 </div>
                 {this.renderBody()}
+                <div className="row">
+                    <div className="col-md-10 d-flex justify-content-center mt-4">
+                        <button type="button" className="btn btn-primary" disabled={!this.props.is_submit_btn_enabled}>
+                            Find Falcone
+                        </button>
+                    </div>
+                </div>
             </Fragment>
         )
     }
@@ -91,6 +98,7 @@ App.propTypes = {
     errors: PropTypes.object,
     is_loading: PropTypes.bool.isRequired,
     has_error: PropTypes.bool.isRequired,
+    is_submit_btn_enabled: PropTypes.bool.isRequired,
 }
 
 export default App;
