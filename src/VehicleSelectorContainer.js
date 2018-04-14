@@ -4,6 +4,7 @@ import { selectVehicle } from './redux/VehicleDucks'
 
 function mapState(state) {
     return {
+        planets: state.planet_reducer.planets,
         vehicles: state.vehicle_reducer.vehicles,
         form: state.vehicle_reducer.form,
         planets_form: state.planet_reducer.form,
@@ -20,10 +21,11 @@ function mapDispatch(dispatch) {
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-    const { vehicles, form, planets_form } = stateProps;
+    const { vehicles, form, planets_form, planets } = stateProps;
     const { selector } = ownProps;
     const { selected_vehicle } = form[selector];
     const should_render = shouldRenderVehicleSelector(selector, planets_form);
+    const selected_planet = getSelectedPlanet(selector, planets_form, planets);
 
     const vehicles_with_count = getAvailableVehicles({ vehicles, form });
 
@@ -33,7 +35,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
         ...ownProps,
         vehicles: vehicles_with_count,
         selected_vehicle,
-        should_render
+        should_render,
+        selected_planet
     };
 }
 
@@ -47,8 +50,6 @@ function getAvailableVehicles({ vehicles, form }) {
     const selected_vehicles = getSelectedVehicles(form);
     return vehicles.map(vehicle => {
         let count = vehicle.total_no;
-        const selected_vehicle_index = selected_vehicles.indexOf(vehicle.name);
-
         for (let i = 0; i < selected_vehicles.length; i++) {
             const selected_vehicle = selected_vehicles[i];
             if (vehicle.name === selected_vehicle) {
@@ -59,7 +60,8 @@ function getAvailableVehicles({ vehicles, form }) {
 
         return {
             name: vehicle.name,
-            count
+            max_distance: vehicle.max_distance,
+            count,
         };
     });
 }
@@ -74,6 +76,17 @@ function getSelectedVehicles(form) {
 }
 
 function shouldRenderVehicleSelector(selector, planet_form) {
-    const { selected_planet } = planet_form[selector];
+    const { selected_planet } = getSelectedPlanetFormData(selector, planet_form);
     return !!selected_planet;
+}
+
+function getSelectedPlanetFormData(selector, planet_form) {
+    return planet_form[selector];
+}
+
+function getSelectedPlanet(selector, planet_form, planets) {
+    const { selected_planet } = getSelectedPlanetFormData(selector, planet_form);
+    if (!selected_planet) return;
+
+    return planets.filter(planet => planet.name === selected_planet)[0];
 }

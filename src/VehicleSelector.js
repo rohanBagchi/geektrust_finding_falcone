@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormNames } from './redux/PlanetDucks';
 
-export default function VehicleSelector({ vehicles, selector, selected_vehicle, selectVehicle, should_render }) {
+export default function VehicleSelector({ vehicles, selector, selected_vehicle, selectVehicle, should_render, selected_planet }) {
     if (!should_render) return null;
 
     const renderVehicles = () => {
         return vehicles.map((vehicle, index) => {
             const id = `vehicle_selector-${selector}-${index}`;
-            const is_disabled = isDisabled(vehicle, selected_vehicle);
+            const is_disabled = isDisabled(vehicle, selected_vehicle, selected_planet);
             const label_classes = "form-check-label label" + (is_disabled ? " disabled" : "");
             return (
                 <div key={index} className="form-check">
@@ -54,6 +54,10 @@ VehicleSelector.propTypes = {
     selectVehicle: PropTypes.func.isRequired,
 }
 
-function isDisabled(current_vehicle, selected_vehicle) {
-    return current_vehicle.name !== selected_vehicle && current_vehicle.count === 0;
+function isDisabled(current_vehicle, selected_vehicle, selected_planet) {
+    if (current_vehicle.name !== selected_vehicle && current_vehicle.count === 0) return true;
+
+    if (current_vehicle.max_distance < selected_planet.distance) return true;
+
+    return false;
 }
