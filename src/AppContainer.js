@@ -21,12 +21,13 @@ function mapDispatch(dispatch) {
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-    const { planets_form, vehicles_form } = stateProps;
+    const { planets_form, vehicles_form, planets, vehicles } = stateProps;
     return {
         ...stateProps,
         ...dispatchProps,
         ...ownProps,
-        is_submit_btn_enabled: isSubmitButtonEnabled(planets_form, vehicles_form)
+        is_submit_btn_enabled: isSubmitButtonEnabled(planets_form, vehicles_form),
+        time_taken: getTimeTaken({ planets_form, vehicles_form, planets, vehicles })
     };
 }
 
@@ -60,4 +61,24 @@ function isAllVehiclesSelected(vehicles_form) {
         if (!selected_vehicle) return false;
     }
     return true;
+}
+
+function getTimeTaken({ planets_form, vehicles_form, planets, vehicles }) {
+    const form_keys = Object.keys(planets_form);
+    const time_taken_list = [];
+
+    for (let i = 0; i < form_keys.length; i++) {
+        const selector = form_keys[i];
+        const { selected_planet } = planets_form[selector];
+        const { selected_vehicle } = vehicles_form[selector];
+
+        if (selected_planet && selected_vehicle) {
+            const selected_planet_entity = planets.filter(p => p.name === selected_planet)[0];
+            const selected_vehicle_entity = vehicles.filter(v => v.name === selected_vehicle)[0];
+            const time_taken = Math.floor(selected_planet_entity.distance / selected_vehicle_entity.speed);
+            time_taken_list.push(time_taken);
+        }
+    }
+
+    return time_taken_list.reduce((x, y) => x + y, 0);
 }

@@ -35,7 +35,7 @@ class App extends Component {
                         <PlanetSelectorContainer selector={FormNames.FORM_4} />
                     </div>
                     <div className="col-md-4 d-flex align-items-center justify-content-center">
-                        Time Taken: 0
+                        Time Taken: {this.props.time_taken}
                     </div>
                 </div>
                 <div className="row">
@@ -99,6 +99,7 @@ App.propTypes = {
     is_loading: PropTypes.bool.isRequired,
     has_error: PropTypes.bool.isRequired,
     is_submit_btn_enabled: PropTypes.bool.isRequired,
+    time_taken: PropTypes.number.isRequired,
 }
 
 export default App;
