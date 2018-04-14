@@ -5,7 +5,8 @@ import { selectVehicle } from './redux/VehicleDucks'
 function mapState(state) {
     return {
         vehicles: state.vehicle_reducer.vehicles,
-        form: state.vehicle_reducer.form
+        form: state.vehicle_reducer.form,
+        planets_form: state.planet_reducer.form,
     }
 }
 
@@ -19,9 +20,10 @@ function mapDispatch(dispatch) {
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-    const { vehicles, form } = stateProps;
+    const { vehicles, form, planets_form } = stateProps;
     const { selector } = ownProps;
     const { selected_vehicle } = form[selector];
+    const should_render = shouldRenderVehicleSelector(selector, planets_form);
 
     const vehicles_with_count = getAvailableVehicles({ vehicles, form });
 
@@ -30,7 +32,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
         ...dispatchProps,
         ...ownProps,
         vehicles: vehicles_with_count,
-        selected_vehicle
+        selected_vehicle,
+        should_render
     };
 }
 
@@ -68,4 +71,9 @@ function getSelectedVehicles(form) {
         selected_vehicle && selected_vehicles.push(selected_vehicle);
     });
     return selected_vehicles;
+}
+
+function shouldRenderVehicleSelector(selector, planet_form) {
+    const { selected_planet } = planet_form[selector];
+    return !!selected_planet;
 }

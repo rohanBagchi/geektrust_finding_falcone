@@ -2,7 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { FormNames } from './redux/PlanetDucks';
 
-export default function VehicleSelector({ vehicles, selector, selected_vehicle, selectVehicle }) {
+export default function VehicleSelector({ vehicles, selector, selected_vehicle, selectVehicle, should_render }) {
+    if (!should_render) return null;
+
     const renderVehicles = () => {
         return vehicles.map((vehicle, index) => {
             const id = `vehicle_selector-${selector}-${index}`;
