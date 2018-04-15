@@ -8,26 +8,45 @@ function mapState(state) {
         vehicles: state.vehicle_reducer.vehicles,
         form: state.vehicle_reducer.form,
         planets_form: state.planet_reducer.form,
+        vehicle_form: state.vehicle_reducer.form,
     }
 }
 
 function mapDispatch(dispatch) {
     return {
-        selectVehicle: (vehicle, selector) =>
+        selectVehicle: (data) =>
             dispatch(
-                selectVehicle(dispatch, vehicle, selector)
+                selectVehicle(dispatch, data)
             ),
     }
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-    const { vehicles, form, planets_form, planets } = stateProps;
+    const {
+        vehicles,
+        form,
+        planets_form,
+        planets
+    } = stateProps;
     const { selector } = ownProps;
     const { selected_vehicle } = form[selector];
     const should_render = shouldRenderVehicleSelector(selector, planets_form);
     const selected_planet = getSelectedPlanet(selector, planets_form, planets);
 
     const vehicles_with_count = getAvailableVehicles({ vehicles, form });
+
+    const selectVehicle = (vehicle, selector) => {
+        const data = {
+            vehicle,
+            selector,
+            planets_form,
+            vehicles_form: form,
+            planets,
+            vehicles
+        };
+
+        dispatchProps.selectVehicle(data);
+    };
 
     return {
         ...stateProps,
@@ -36,7 +55,8 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
         vehicles: vehicles_with_count,
         selected_vehicle,
         should_render,
-        selected_planet
+        selected_planet,
+        selectVehicle
     };
 }
 
