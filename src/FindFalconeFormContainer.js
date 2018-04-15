@@ -16,6 +16,7 @@ function mapState(state) {
         vehicles_form: state.vehicle_reducer.form,
         planets_form: state.planet_reducer.form,
         status: state.app_reducer.find_falcone_response.status,
+        find_falcone_form_is_loading: state.app_reducer.find_falcone_form_is_loading,
     }
 }
 

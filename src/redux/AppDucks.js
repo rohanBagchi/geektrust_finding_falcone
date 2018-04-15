@@ -16,6 +16,7 @@ const AppDucksActionTypes = keymirror({
     APP_DUCKS_SET_TIME_TAKEN: null,
     APP_DUCKS_RESET_ALL: null,
     APP_DUCKS_RESET_APP_DATA: null,
+    APP_DUCKS_SET_FIND_FALCONE_FORM_IS_LOADING: null,
 });
 
 const initial_state = {
@@ -27,6 +28,7 @@ const initial_state = {
         status: null,
         planet_name: null
     },
+    find_falcone_form_is_loading: false
 };
 
 export const resetAll = createAction(
@@ -68,6 +70,13 @@ export const setIsLoading = createAction(
     })
 );
 
+export const setFindFalconeFormIsLoading = createAction(
+    AppDucksActionTypes.APP_DUCKS_SET_FIND_FALCONE_FORM_IS_LOADING,
+    is_loading => ({
+        is_loading
+    })
+);
+
 export const setTimeTaken = createAction(
     AppDucksActionTypes.APP_DUCKS_SET_TIME_TAKEN,
     time_taken => ({
@@ -92,6 +101,7 @@ export const handleError = createAction(
 export const findFalcone = createAction(
     AppDucksActionTypes.APP_DUCKS_FIND_FALCONE,
     (dispatch, planets, vehicles) => {
+        dispatch(setFindFalconeFormIsLoading(true));
         return findFalconeService(planets, vehicles)
             .then(response_data => {
                 const response = {};
@@ -104,8 +114,12 @@ export const findFalcone = createAction(
                 }
 
                 dispatch(setFindFalconeResponse(response));
+                dispatch(setFindFalconeFormIsLoading(false));
             })
-            .catch(err => dispatch(handleError(err)));
+            .catch(err => {
+                dispatch(handleError(err));
+                dispatch(setFindFalconeFormIsLoading(false));
+            });
     }
 )
 
@@ -115,6 +129,12 @@ export default function reducer(state = initial_state, action) {
             return {
                 ...state,
                 is_loading: action.payload.is_loading
+            };
+
+        case AppDucksActionTypes.APP_DUCKS_SET_FIND_FALCONE_FORM_IS_LOADING:
+            return {
+                ...state,
+                find_falcone_form_is_loading: action.payload.is_loading
             };
 
         case AppDucksActionTypes.APP_DUCKS_HANDLE_ERROR:

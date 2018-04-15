@@ -1,10 +1,11 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 import { Redirect } from 'react-router-dom';
 import PlanetSelectorContainer from './PlanetSelectorContainer';
 import VehicleSelectorContainer from './VehicleSelectorContainer';
 import { FormNames } from './redux/PlanetDucks';
 
-export default ({ is_loading, has_error, time_taken, is_submit_btn_enabled, status, findFalcone }) => {
+export default function FindFalconeForm({ is_loading, find_falcone_form_is_loading, has_error, time_taken, is_submit_btn_enabled, status, findFalcone }) {
     if (status !== null) {
         return (
             <Redirect to={{
@@ -83,13 +84,23 @@ export default ({ is_loading, has_error, time_taken, is_submit_btn_enabled, stat
                         onClick={handleSubmitBtnClick}
                         type="button"
                         className="btn btn-primary"
-                        disabled={!is_submit_btn_enabled}>
-                        Find Falcone
+                        disabled={!is_submit_btn_enabled || find_falcone_form_is_loading}>
+                        {
+                            find_falcone_form_is_loading ? 'Loading...' : 'Find Falcone'
+                        }
                     </button>
                 </div>
             </div>
         </Fragment>
     );
-
-
 }
+
+FindFalconeForm.propTypes = {
+    is_loading: PropTypes.bool.isRequired,
+    has_error: PropTypes.bool.isRequired,
+    find_falcone_form_is_loading: PropTypes.bool.isRequired,
+    is_submit_btn_enabled: PropTypes.bool.isRequired,
+    time_taken: PropTypes.number.isRequired,
+    status: PropTypes.any,
+    findFalcone: PropTypes.func.isRequired,
+};
