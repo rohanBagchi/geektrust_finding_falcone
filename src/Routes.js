@@ -1,13 +1,13 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import FindFalconeFormContainer from './FindFalconeFormContainer';
-import FindFalconeResult from './FindFalconeResult';
+import FindFalconeResultContainer from './FindFalconeResultContainer';
 
 const Routes = () => {
     return (
         <Switch>
             <Route exact path="/" component={FindFalconeFormContainer} />
-            <Route exact path="/result" component={FindFalconeResult} />
+            <Route exact path="/result" component={FindFalconeResultContainer} />
             <Route component={NoMatch} />
         </Switch>
     );

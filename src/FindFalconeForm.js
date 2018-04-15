@@ -1,9 +1,19 @@
 import React, { Fragment } from 'react';
+import { Redirect } from 'react-router-dom';
 import PlanetSelectorContainer from './PlanetSelectorContainer';
 import VehicleSelectorContainer from './VehicleSelectorContainer';
 import { FormNames } from './redux/PlanetDucks';
 
-export default ({ is_loading, has_error, time_taken, is_submit_btn_enabled, findFalcone }) => {
+export default ({ is_loading, has_error, time_taken, is_submit_btn_enabled, status, findFalcone }) => {
+    if (status !== null) {
+        return (
+            <Redirect to={{
+                pathname: '/result',
+                state: { from: '' } // eslint-disable-line react/prop-types
+            }} />
+        );
+    }
+
     if (has_error) {
         return (
             <div className="alert alert-info" role="alert">

@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
 import App from './App';
 import { fetchInitialAppData, findFalcone } from './redux/AppDucks';
 import {
@@ -45,10 +46,11 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     };
 }
 
-export default connect(
-    mapState,
-    mapDispatch,
-    mergeProps
-)(App);
-
+export default withRouter(
+    connect(
+        mapState,
+        mapDispatch,
+        mergeProps
+    )(App)
+);
 
