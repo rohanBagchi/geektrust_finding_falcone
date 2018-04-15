@@ -34,3 +34,29 @@ export function getTimeTaken({ selected_planet_names, selected_vehicle_names, pl
 
     return time_taken_list.reduce((x, y) => x + y, 0);
 }
+
+export function isSubmitButtonEnabled(planets_form, vehicles_form) {
+    return isAllPlanetsSelected(planets_form) && isAllVehiclesSelected(vehicles_form);
+}
+
+export function isAllPlanetsSelected(planets_form) {
+    const form_keys = Object.keys(planets_form);
+
+    for (let i = 0; i < form_keys.length; i++) {
+        const selector = form_keys[i];
+        const { selected_planet } = planets_form[selector];
+        if (!selected_planet) return false;
+    }
+    return true;
+}
+
+export function isAllVehiclesSelected(vehicles_form) {
+    const form_keys = Object.keys(vehicles_form);
+
+    for (let i = 0; i < form_keys.length; i++) {
+        const selector = form_keys[i];
+        const { selected_vehicle } = vehicles_form[selector];
+        if (!selected_vehicle) return false;
+    }
+    return true;
+}
