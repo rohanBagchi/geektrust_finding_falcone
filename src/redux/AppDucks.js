@@ -13,14 +13,16 @@ const AppDucksActionTypes = keymirror({
     APP_DUCKS_HANDLE_ERROR: null,
     APP_DUCKS_FIND_FALCONE: null,
     APP_DUCKS_SET_FIND_FALCONE_RESPONSE: null,
+    APP_DUCKS_SET_TIME_TAKEN: null,
 });
 
 const initial_state = {
     is_loading: false,
     errors: {},
     has_error: false,
+    time_taken: 0,
     find_falcone_response: {
-        status: false,
+        status: null,
         planet_name: null
     },
 };
@@ -45,6 +47,13 @@ export const setIsLoading = createAction(
     AppDucksActionTypes.APP_DUCKS_SET_IS_LOADING,
     is_loading => ({
         is_loading
+    })
+);
+
+export const setTimeTaken = createAction(
+    AppDucksActionTypes.APP_DUCKS_SET_TIME_TAKEN,
+    time_taken => ({
+        time_taken
     })
 );
 
@@ -101,6 +110,12 @@ export default function reducer(state = initial_state, action) {
             return {
                 ...state,
                 find_falcone_response: action.payload.find_falcone_response
+            };
+
+        case AppDucksActionTypes.APP_DUCKS_SET_TIME_TAKEN:
+            return {
+                ...state,
+                time_taken: action.payload.time_taken
             };
 
         default:
