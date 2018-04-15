@@ -11,6 +11,7 @@ import {
 const VehicleDucksActionTypes = keymirror({
     SET_VEHICLES: null,
     SELECT_VEHICLE: null,
+    RESET_VEHICLE_DATA: null,
 });
 
 const initial_state = {
@@ -22,6 +23,13 @@ const initial_state = {
         [FormNames.FORM_4]: getFormData(),
     }
 };
+
+export const resetVehicleData = createAction(
+    VehicleDucksActionTypes.RESET_VEHICLE_DATA,
+    () => ({
+        initial_state
+    })
+);
 
 export const setVehicles = createAction(
     VehicleDucksActionTypes.SET_VEHICLES,
@@ -82,6 +90,12 @@ export default function reducer(state = initial_state, action) {
                     ...state.form,
                     [action.payload.selector]: getFormData(action.payload.vehicle)
                 }
+            };
+
+        case VehicleDucksActionTypes.RESET_VEHICLE_DATA:
+            return {
+                ...action.payload.initial_state,
+                vehicles: state.vehicles
             };
 
         default:

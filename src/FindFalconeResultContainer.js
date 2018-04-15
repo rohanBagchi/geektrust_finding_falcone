@@ -1,5 +1,6 @@
 import { connect } from 'react-redux';
 import { withRouter } from "react-router-dom";
+import { resetAll } from './redux/AppDucks';
 import FindFalconeResult from './FindFalconeResult';
 
 function mapState(state) {
@@ -12,10 +13,11 @@ function mapState(state) {
 
 function mapDispatch(dispatch) {
     return {
+        resetAll: () => dispatch(resetAll(dispatch))
     }
 }
 
 export default withRouter(connect(
     mapState,
-    // mapDispatch,
+    mapDispatch,
 )(FindFalconeResult));

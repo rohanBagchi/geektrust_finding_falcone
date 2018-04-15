@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 
-export default ({ status = null, time_taken, planet_found, location }) => {
+export default ({ status = null, time_taken, planet_found, location, resetAll }) => {
     if (status === null) {
         return (
             <Redirect to={{
@@ -14,7 +14,6 @@ export default ({ status = null, time_taken, planet_found, location }) => {
     const renderBody = () => {
         if (status) {
             return (
-
                 <div className="row">
                     <div className="col-md-12">
                         <div className="row">
@@ -50,7 +49,9 @@ export default ({ status = null, time_taken, planet_found, location }) => {
                 {renderBody()}
                 <div className="row">
                     <div className="col-md-12 d-flex justify-content-center">
-                        <button className="btn btn-primary">
+                        <button
+                            onClick={resetAll}
+                            className="btn btn-primary">
                             Start Again
                         </button>
                     </div>

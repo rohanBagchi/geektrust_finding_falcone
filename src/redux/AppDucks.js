@@ -4,8 +4,8 @@ import {
     fetchInitialAppData as fetchInitialAppDataService,
     findfalcone as findFalconeService
 } from './services/AppService';
-import { setPlanets } from './PlanetDucks';
-import { setVehicles } from './VehicleDucks';
+import { setPlanets, resetPlanetData } from './PlanetDucks';
+import { setVehicles, resetVehicleData } from './VehicleDucks';
 
 const AppDucksActionTypes = keymirror({
     APP_DUCKS_FETCH_INITIAL_APP_DATA: null,
@@ -14,6 +14,8 @@ const AppDucksActionTypes = keymirror({
     APP_DUCKS_FIND_FALCONE: null,
     APP_DUCKS_SET_FIND_FALCONE_RESPONSE: null,
     APP_DUCKS_SET_TIME_TAKEN: null,
+    APP_DUCKS_RESET_ALL: null,
+    APP_DUCKS_RESET_APP_DATA: null,
 });
 
 const initial_state = {
@@ -26,6 +28,22 @@ const initial_state = {
         planet_name: null
     },
 };
+
+export const resetAll = createAction(
+    AppDucksActionTypes.APP_DUCKS_RESET_ALL,
+    dispatch => {
+        dispatch(resetAppData());
+        dispatch(resetPlanetData());
+        dispatch(resetVehicleData());
+    }
+);
+
+export const resetAppData = createAction(
+    AppDucksActionTypes.APP_DUCKS_RESET_APP_DATA,
+    () => ({
+        initial_state
+    })
+);
 
 export const fetchInitialAppData = createAction(
     AppDucksActionTypes.APP_DUCKS_FETCH_INITIAL_APP_DATA,
@@ -116,6 +134,11 @@ export default function reducer(state = initial_state, action) {
             return {
                 ...state,
                 time_taken: action.payload.time_taken
+            };
+
+        case AppDucksActionTypes.APP_DUCKS_RESET_APP_DATA:
+            return {
+                ...action.payload.initial_state
             };
 
         default:

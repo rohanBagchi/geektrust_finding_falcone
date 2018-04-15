@@ -4,6 +4,7 @@ import keymirror from "keymirror";
 const PlanetDucksActionTypes = keymirror({
     SET_PLANETS: null,
     SELECT_PLANET: null,
+    RESET_PLANET_DATA: null
 });
 
 export const FormNames = keymirror({
@@ -22,6 +23,13 @@ const initial_state = {
         [FormNames.FORM_4]: getFormData(),
     }
 };
+
+export const resetPlanetData = createAction(
+    PlanetDucksActionTypes.RESET_PLANET_DATA,
+    () => ({
+        initial_state
+    })
+);
 
 export const setPlanets = createAction(
     PlanetDucksActionTypes.SET_PLANETS,
@@ -52,6 +60,12 @@ export default function reducer(state = initial_state, action) {
                     ...state.form,
                     [action.payload.selector]: getFormData(action.payload.planet)
                 }
+            };
+
+        case PlanetDucksActionTypes.RESET_PLANET_DATA:
+            return {
+                ...action.payload.initial_state,
+                planets: state.planets
             };
 
         default:
