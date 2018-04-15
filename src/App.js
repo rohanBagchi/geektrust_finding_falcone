@@ -1,92 +1,11 @@
 import React, { Component, Fragment } from "react";
 import PropTypes from 'prop-types';
 import NavBar from './NavBar';
-import PlanetSelectorContainer from './PlanetSelectorContainer';
-import VehicleSelectorContainer from './VehicleSelectorContainer';
-import { FormNames } from './redux/PlanetDucks';
 import './App.css';
 
 class App extends Component {
     componentWillMount = () => {
         this.props.fetchInitialAppData();
-    }
-
-    renderBody = () => {
-        if (this.props.has_error) {
-            return (
-                <div className="alert alert-info" role="alert">
-                    Some Error Occured. Please refresh.
-                </div>
-            );
-        }
-        return (
-            <Fragment>
-                <div className="row mb-2">
-                    <div className="col-md-2">
-                        <PlanetSelectorContainer selector={FormNames.FORM_1} />
-                    </div>
-                    <div className="col-md-2">
-                        <PlanetSelectorContainer selector={FormNames.FORM_2} />
-                    </div>
-                    <div className="col-md-2">
-                        <PlanetSelectorContainer selector={FormNames.FORM_3} />
-                    </div>
-                    <div className="col-md-2">
-                        <PlanetSelectorContainer selector={FormNames.FORM_4} />
-                    </div>
-                    <div className="col-md-4 d-flex align-items-center justify-content-center">
-                        Time Taken: {this.props.time_taken}
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-md-2">
-                        <VehicleSelectorContainer selector={FormNames.FORM_1} />
-                    </div>
-                    <div className="col-md-2">
-                        <VehicleSelectorContainer selector={FormNames.FORM_2} />
-                    </div>
-                    <div className="col-md-2">
-                        <VehicleSelectorContainer selector={FormNames.FORM_3} />
-                    </div>
-                    <div className="col-md-2">
-                        <VehicleSelectorContainer selector={FormNames.FORM_4} />
-                    </div>
-                </div>
-            </Fragment>
-        );
-    }
-
-    handleSubmitBtnClick = () => {
-        if (!this.props.is_submit_btn_enabled) return;
-
-        this.props.findFalcone();
-    }
-
-    renderContent = () => {
-        if (this.props.is_loading) return <div>Loading..</div>;
-        return (
-            <Fragment>
-                <div className="row">
-                    <div className="col-md-12">
-                        <h3>
-                            Select the planets you want to search in
-                        </h3>
-                    </div>
-                </div>
-                {this.renderBody()}
-                <div className="row">
-                    <div className="col-md-10 d-flex justify-content-center mt-4">
-                        <button
-                            onClick={this.handleSubmitBtnClick}
-                            type="button"
-                            className="btn btn-primary"
-                            disabled={!this.props.is_submit_btn_enabled}>
-                            Find Falcone
-                        </button>
-                    </div>
-                </div>
-            </Fragment>
-        )
     }
 
     render() {
@@ -95,7 +14,7 @@ class App extends Component {
                 <div className="row">
                     <div className="col-md-12">
                         <NavBar />
-                        {this.renderContent()}
+                        {this.props.children}
                     </div>
                 </div>
             </div>
@@ -105,12 +24,7 @@ class App extends Component {
 
 App.propTypes = {
     fetchInitialAppData: PropTypes.func.isRequired,
-    errors: PropTypes.object,
-    is_loading: PropTypes.bool.isRequired,
-    has_error: PropTypes.bool.isRequired,
-    is_submit_btn_enabled: PropTypes.bool.isRequired,
-    time_taken: PropTypes.number.isRequired,
-    findFalcone: PropTypes.func.isRequired,
+    children: PropTypes.node.isRequired,
 }
 
 export default App;
