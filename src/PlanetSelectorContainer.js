@@ -52,7 +52,7 @@ function getNotSelectedPlanets(planets, form) {
     return planets.filter(planet => selected_planets.indexOf(planet.name) === -1);
 }
 
-function getSelectedPlanets(form) {
+export function getSelectedPlanets(form) {
     const selected_planets = [];
     Object.keys(form).forEach(selector => {
         const { selected_planet } = form[selector];

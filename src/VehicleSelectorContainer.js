@@ -66,7 +66,7 @@ function getAvailableVehicles({ vehicles, form }) {
     });
 }
 
-function getSelectedVehicles(form) {
+export function getSelectedVehicles(form) {
     const selected_vehicles = [];
     Object.keys(form).forEach(selector => {
         const { selected_vehicle } = form[selector];

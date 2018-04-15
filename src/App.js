@@ -35,7 +35,7 @@ class App extends Component {
                         <PlanetSelectorContainer selector={FormNames.FORM_4} />
                     </div>
                     <div className="col-md-4 d-flex align-items-center justify-content-center">
-                        Time Taken: 0
+                        Time Taken: {this.props.time_taken}
                     </div>
                 </div>
                 <div className="row">
@@ -56,6 +56,12 @@ class App extends Component {
         );
     }
 
+    handleSubmitBtnClick = () => {
+        if (!this.props.is_submit_btn_enabled) return;
+
+        this.props.findFalcone();
+    }
+
     renderContent = () => {
         if (this.props.is_loading) return <div>Loading..</div>;
         return (
@@ -70,7 +76,11 @@ class App extends Component {
                 {this.renderBody()}
                 <div className="row">
                     <div className="col-md-10 d-flex justify-content-center mt-4">
-                        <button type="button" className="btn btn-primary" disabled={!this.props.is_submit_btn_enabled}>
+                        <button
+                            onClick={this.handleSubmitBtnClick}
+                            type="button"
+                            className="btn btn-primary"
+                            disabled={!this.props.is_submit_btn_enabled}>
                             Find Falcone
                         </button>
                     </div>
@@ -99,6 +109,8 @@ App.propTypes = {
     is_loading: PropTypes.bool.isRequired,
     has_error: PropTypes.bool.isRequired,
     is_submit_btn_enabled: PropTypes.bool.isRequired,
+    time_taken: PropTypes.number.isRequired,
+    findFalcone: PropTypes.func.isRequired,
 }
 
 export default App;
