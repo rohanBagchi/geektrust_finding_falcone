@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import FindFalconeForm from './FindFalconeForm';
-import { fetchInitialAppData, findFalcone } from './redux/AppDucks';
+import { findFalcone } from './redux/AppDucks';
 import {
     getSelectedPlanets,
     getSelectedVehicles

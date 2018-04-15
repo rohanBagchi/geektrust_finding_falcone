@@ -29,7 +29,7 @@ function mapDispatch(dispatch) {
 }
 
 function mergeProps(stateProps, dispatchProps, ownProps) {
-    const { planets_form, vehicles_form, planets, vehicles } = stateProps;
+    const { planets_form, vehicles_form } = stateProps;
 
     const findFalcone = () => {
         const planets = getSelectedPlanets(planets_form);

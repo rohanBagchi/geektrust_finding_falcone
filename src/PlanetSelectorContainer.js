@@ -2,7 +2,6 @@ import { connect } from 'react-redux';
 import PlanetSelector from './PlanetSelector';
 import { selectPlanet } from './redux/PlanetDucks';
 import {
-    getSelectedPlanets,
     getAvailablePlanets
 } from './utils/SelectorUtils';
 
