@@ -1,8 +1,10 @@
 import { connect } from 'react-redux';
 import FindFalconeForm from './FindFalconeForm';
 import { fetchInitialAppData, findFalcone } from './redux/AppDucks';
-import { getSelectedPlanets } from './PlanetSelectorContainer';
-import { getSelectedVehicles } from './VehicleSelectorContainer';
+import {
+    getSelectedPlanets,
+    getSelectedVehicles
+} from './utils/SelectorUtils';
 
 function mapState(state) {
     return {
