@@ -54,8 +54,6 @@ export function findfalcone(planets, vehicles) {
                     },
                     axios_config
                 )
-                .then(res => {
-                    debugger;
-                })
+                .then(res => res.data)
         });
 }

@@ -29,7 +29,6 @@ function mergeProps(stateProps, dispatchProps, ownProps) {
     const findFalcone = () => {
         const planets = getSelectedPlanets(planets_form);
         const vehicles = getSelectedVehicles(vehicles_form);
-        debugger;
         dispatchProps.findFalcone(planets, vehicles);
     };
 
