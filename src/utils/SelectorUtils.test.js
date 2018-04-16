@@ -1,20 +1,4 @@
-import {
-    getSelectedPlanets,
-    getSelectedVehicles,
-    getTimeTaken,
-    isSubmitButtonEnabled,
-    isAllPlanetsSelected,
-    isAllVehiclesSelected,
-    getAvailablePlanets,
-    getNotSelectedPlanets,
-    getCurrentSelectedPlanet,
-    getAvailableVehicles,
-    shouldRenderVehicleSelector,
-    getSelectedPlanetFormData,
-    getSelectedPlanet
-} from './SelectorUtils';
-
-import * as SelectorFns from './SelectorUtils';
+import * as SelectorUtils from './SelectorUtils';
 
 it('should return selected planets', () => {
     const selected_planet_1 = 'foo01';
@@ -28,7 +12,7 @@ it('should return selected planets', () => {
         },
     };
 
-    const selected_planets = getSelectedPlanets(form);
+    const selected_planets = SelectorUtils.getSelectedPlanets(form);
     expect(selected_planets).toEqual([
         selected_planet_1,
         selected_planet_2
@@ -47,7 +31,7 @@ it('should return selected vehicles', () => {
         },
     };
 
-    const selected_vehicles = getSelectedVehicles(form);
+    const selected_vehicles = SelectorUtils.getSelectedVehicles(form);
     expect(selected_vehicles).toEqual([
         selected_vehicle_1,
         selected_vehicle_2
@@ -109,7 +93,7 @@ it('should return time taken', () => {
         selected_vehicle_2
     ];
 
-    const time_taken = getTimeTaken({ selected_planet_names, selected_vehicle_names, planets, vehicles });
+    const time_taken = SelectorUtils.getTimeTaken({ selected_planet_names, selected_vehicle_names, planets, vehicles });
     expect(time_taken).toEqual(expected_time_taken);
 });
 
@@ -117,44 +101,44 @@ describe('test isSubmitButtonEnabled function', () => {
     const original = {};
 
     beforeEach(() => {
-        original[isAllPlanetsSelected] = SelectorFns.lib.isAllPlanetsSelected;
-        original[isAllVehiclesSelected] = SelectorFns.lib.isAllVehiclesSelected;
+        original['isAllPlanetsSelected'] = SelectorUtils.lib.isAllPlanetsSelected;
+        original['isAllVehiclesSelected'] = SelectorUtils.lib.isAllVehiclesSelected;
     });
 
 
     it('should correctly compute isSubmitButtonEnabled status for ALL vehicles && ALL planets selected', () => {
-        SelectorFns.lib.isAllPlanetsSelected = jest.fn();
-        SelectorFns.lib.isAllVehiclesSelected = jest.fn();
+        SelectorUtils.lib.isAllPlanetsSelected = jest.fn();
+        SelectorUtils.lib.isAllVehiclesSelected = jest.fn();
 
-        SelectorFns.lib.isAllPlanetsSelected.mockReturnValueOnce(true);
-        SelectorFns.lib.isAllVehiclesSelected.mockReturnValueOnce(true);
+        SelectorUtils.lib.isAllPlanetsSelected.mockReturnValueOnce(true);
+        SelectorUtils.lib.isAllVehiclesSelected.mockReturnValueOnce(true);
 
-        expect(SelectorFns.isSubmitButtonEnabled({}, {})).toBeTruthy();
+        expect(SelectorUtils.isSubmitButtonEnabled({}, {})).toBeTruthy();
     });
 
     it('should correctly compute isSubmitButtonEnabled status for ALL planets selected and vehicles NOT selected', () => {
-        SelectorFns.lib.isAllPlanetsSelected = jest.fn();
-        SelectorFns.lib.isAllVehiclesSelected = jest.fn();
+        SelectorUtils.lib.isAllPlanetsSelected = jest.fn();
+        SelectorUtils.lib.isAllVehiclesSelected = jest.fn();
 
-        SelectorFns.lib.isAllPlanetsSelected.mockReturnValueOnce(true);
-        SelectorFns.lib.isAllVehiclesSelected.mockReturnValueOnce(false);
+        SelectorUtils.lib.isAllPlanetsSelected.mockReturnValueOnce(true);
+        SelectorUtils.lib.isAllVehiclesSelected.mockReturnValueOnce(false);
 
-        expect(SelectorFns.isSubmitButtonEnabled({}, {})).toBeFalsy();
+        expect(SelectorUtils.isSubmitButtonEnabled({}, {})).toBeFalsy();
     });
 
     it('should correctly compute isSubmitButtonEnabled status for ALL vehicles selected and planets NOT selected', () => {
-        SelectorFns.lib.isAllPlanetsSelected = jest.fn();
-        SelectorFns.lib.isAllVehiclesSelected = jest.fn();
+        SelectorUtils.lib.isAllPlanetsSelected = jest.fn();
+        SelectorUtils.lib.isAllVehiclesSelected = jest.fn();
 
-        SelectorFns.lib.isAllPlanetsSelected.mockReturnValueOnce(false);
-        SelectorFns.lib.isAllVehiclesSelected.mockReturnValueOnce(true);
+        SelectorUtils.lib.isAllPlanetsSelected.mockReturnValueOnce(false);
+        SelectorUtils.lib.isAllVehiclesSelected.mockReturnValueOnce(true);
 
-        expect(SelectorFns.isSubmitButtonEnabled({}, {})).toBeFalsy();
+        expect(SelectorUtils.isSubmitButtonEnabled({}, {})).toBeFalsy();
     });
 
     afterEach(() => {
-        SelectorFns.lib.isAllPlanetsSelected = original[isAllPlanetsSelected];
-        SelectorFns.lib.isAllVehiclesSelected = original[isAllVehiclesSelected];
+        SelectorUtils.lib.isAllPlanetsSelected = original['isAllPlanetsSelected'];
+        SelectorUtils.lib.isAllVehiclesSelected = original['isAllVehiclesSelected'];
     });
 
 })
