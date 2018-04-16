@@ -36,7 +36,7 @@ export function getTimeTaken({ selected_planet_names, selected_vehicle_names, pl
 }
 
 export function isSubmitButtonEnabled(planets_form, vehicles_form) {
-    return isAllPlanetsSelected(planets_form) && isAllVehiclesSelected(vehicles_form);
+    return lib.isAllPlanetsSelected(planets_form) && lib.isAllVehiclesSelected(vehicles_form);
 }
 
 export function isAllPlanetsSelected(planets_form) {
@@ -60,6 +60,15 @@ export function isAllVehiclesSelected(vehicles_form) {
     }
     return true;
 }
+
+/**
+ * this aides in mocking during tests.
+ * check http://luetkemj.github.io/170421/mocking-modules-in-jest/
+ */
+export const lib = {
+    isAllPlanetsSelected,
+    isAllVehiclesSelected
+};
 
 export function getAvailablePlanets({ planets, form, selected_planet }) {
     const not_selected_planets = getNotSelectedPlanets(planets, form);
