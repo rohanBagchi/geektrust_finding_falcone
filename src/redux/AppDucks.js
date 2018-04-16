@@ -7,7 +7,7 @@ import {
 import { setPlanets, resetPlanetData } from './PlanetDucks';
 import { setVehicles, resetVehicleData } from './VehicleDucks';
 
-const AppDucksActionTypes = keymirror({
+export const AppDucksActionTypes = keymirror({
     APP_DUCKS_FETCH_INITIAL_APP_DATA: null,
     APP_DUCKS_SET_IS_LOADING: null,
     APP_DUCKS_HANDLE_ERROR: null,
@@ -19,7 +19,7 @@ const AppDucksActionTypes = keymirror({
     APP_DUCKS_SET_FIND_FALCONE_FORM_IS_LOADING: null,
 });
 
-const initial_state = {
+export const initial_state = {
     is_loading: false,
     errors: {},
     has_error: false,
@@ -123,7 +123,8 @@ export const findFalcone = createAction(
     }
 )
 
-export default function reducer(state = initial_state, action) {
+export default function reducer(state, action) {
+    state = state || initial_state;
     switch (action.type) {
         case AppDucksActionTypes.APP_DUCKS_SET_IS_LOADING:
             return {
