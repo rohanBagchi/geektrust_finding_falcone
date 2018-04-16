@@ -1,7 +1,7 @@
 import { createAction } from "redux-actions";
 import keymirror from "keymirror";
 
-const PlanetDucksActionTypes = keymirror({
+export const PlanetDucksActionTypes = keymirror({
     SET_PLANETS: null,
     SELECT_PLANET: null,
     RESET_PLANET_DATA: null
@@ -14,7 +14,7 @@ export const FormNames = keymirror({
     FORM_4: null,
 });
 
-const initial_state = {
+export const initial_state = {
     planets: [],
     form: {
         [FormNames.FORM_1]: getFormData(),
@@ -46,7 +46,8 @@ export const selectPlanet = createAction(
     })
 );
 
-export default function reducer(state = initial_state, action) {
+export default function reducer(state, action) {
+    state = state || initial_state;
     switch (action.type) {
         case PlanetDucksActionTypes.SET_PLANETS:
             return {
