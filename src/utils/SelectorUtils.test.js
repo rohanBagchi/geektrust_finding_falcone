@@ -141,5 +141,70 @@ describe('test isSubmitButtonEnabled function', () => {
         SelectorUtils.lib.isAllVehiclesSelected = original['isAllVehiclesSelected'];
     });
 
-})
+});
+
+it('should correctly return TRUE for isAllPlanetsSelected', () => {
+    const selected_planet_1 = 'foo01';
+    const selected_planet_2 = 'foo02';
+    const form = {
+        foo: {
+            selected_planet: selected_planet_1
+        },
+        bar: {
+            selected_planet: selected_planet_2
+        },
+    };
+
+    const is_all_planets_selected = SelectorUtils.isAllPlanetsSelected(form);
+    expect(is_all_planets_selected).toBeTruthy();
+});
+
+it('should correctly return FALSE for isAllPlanetsSelected', () => {
+    const selected_planet_1 = 'foo01';
+    const selected_planet_2 = 'foo02';
+    const form = {
+        foo: {
+            selected_planet: selected_planet_1
+        },
+        bar: {
+            selected_planet: ''
+        },
+    };
+
+    const is_all_planets_selected = SelectorUtils.isAllPlanetsSelected(form);
+    expect(is_all_planets_selected).toBeFalsy();
+});
+
+it('should correctly return TRUE for isAllVehiclesSelected', () => {
+    const selected_vehicle_1 = 'foo01';
+    const selected_vehicle_2 = 'foo02';
+    const form = {
+        foo: {
+            selected_vehicle: selected_vehicle_1
+        },
+        bar: {
+            selected_vehicle: selected_vehicle_2
+        },
+    };
+
+    const is_all_planets_selected = SelectorUtils.isAllVehiclesSelected(form);
+    expect(is_all_planets_selected).toBeTruthy();
+});
+
+it('should correctly return FALSE for isAllVehiclesSelected', () => {
+    const selected_vehicle_1 = 'foo01';
+    const selected_vehicle_2 = 'foo02';
+    const form = {
+        foo: {
+            selected_vehicle: selected_vehicle_1
+        },
+        bar: {
+            selected_vehicle: ''
+        },
+    };
+
+
+    const is_all_planets_selected = SelectorUtils.isAllVehiclesSelected(form);
+    expect(is_all_planets_selected).toBeFalsy();
+});
 
