@@ -8,13 +8,13 @@ import {
     getTimeTaken
 } from '../utils/SelectorUtils';
 
-const VehicleDucksActionTypes = keymirror({
+export const VehicleDucksActionTypes = keymirror({
     SET_VEHICLES: null,
     SELECT_VEHICLE: null,
     RESET_VEHICLE_DATA: null,
 });
 
-const initial_state = {
+export const initial_state = {
     vehicles: [],
     form: {
         [FormNames.FORM_1]: getFormData(),
@@ -78,7 +78,8 @@ export const selectVehicle = createAction(
     }
 );
 
-export default function reducer(state = initial_state, action) {
+export default function reducer(state, action) {
+    state = state || initial_state;
     switch (action.type) {
         case VehicleDucksActionTypes.SET_VEHICLES:
             return { ...state, vehicles: action.payload.vehicles };
