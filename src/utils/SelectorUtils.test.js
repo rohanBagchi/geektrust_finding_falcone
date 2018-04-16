@@ -1,5 +1,23 @@
 import * as SelectorUtils from './SelectorUtils';
 
+const original = {};
+
+beforeEach(() => {
+    original['isAllPlanetsSelected'] = SelectorUtils.lib.isAllPlanetsSelected;
+    original['isAllVehiclesSelected'] = SelectorUtils.lib.isAllVehiclesSelected;
+    original['getNotSelectedPlanets'] = SelectorUtils.lib.getNotSelectedPlanets;
+    original['getCurrentSelectedPlanet'] = SelectorUtils.lib.getCurrentSelectedPlanet;
+    original['getSelectedPlanets'] = SelectorUtils.lib.getSelectedPlanets;
+});
+
+afterEach(() => {
+    SelectorUtils.lib.isAllPlanetsSelected = original['isAllPlanetsSelected'];
+    SelectorUtils.lib.isAllVehiclesSelected = original['isAllVehiclesSelected'];
+    SelectorUtils.lib.getNotSelectedPlanets = original['getNotSelectedPlanets'];
+    SelectorUtils.lib.getCurrentSelectedPlanet = original['getCurrentSelectedPlanet'];
+    SelectorUtils.lib.getSelectedPlanets = original['getSelectedPlanets'];
+});
+
 it('should return selected planets', () => {
     const selected_planet_1 = 'foo01';
     const selected_planet_2 = 'foo02';
@@ -98,14 +116,6 @@ it('should return time taken', () => {
 });
 
 describe('test isSubmitButtonEnabled function', () => {
-    const original = {};
-
-    beforeEach(() => {
-        original['isAllPlanetsSelected'] = SelectorUtils.lib.isAllPlanetsSelected;
-        original['isAllVehiclesSelected'] = SelectorUtils.lib.isAllVehiclesSelected;
-    });
-
-
     it('should correctly compute isSubmitButtonEnabled status for ALL vehicles && ALL planets selected', () => {
         SelectorUtils.lib.isAllPlanetsSelected = jest.fn();
         SelectorUtils.lib.isAllVehiclesSelected = jest.fn();
@@ -135,12 +145,6 @@ describe('test isSubmitButtonEnabled function', () => {
 
         expect(SelectorUtils.isSubmitButtonEnabled({}, {})).toBeFalsy();
     });
-
-    afterEach(() => {
-        SelectorUtils.lib.isAllPlanetsSelected = original['isAllPlanetsSelected'];
-        SelectorUtils.lib.isAllVehiclesSelected = original['isAllVehiclesSelected'];
-    });
-
 });
 
 it('should correctly return TRUE for isAllPlanetsSelected', () => {
@@ -208,3 +212,91 @@ it('should correctly return FALSE for isAllVehiclesSelected', () => {
     expect(is_all_planets_selected).toBeFalsy();
 });
 
+it('should correctly compute available planets for a currently selected planet', () => {
+    SelectorUtils.lib.getNotSelectedPlanets = jest.fn();
+    SelectorUtils.lib.getCurrentSelectedPlanet = jest.fn();
+
+    const not_selected_planets = [1, 2, 3];
+    const current_selected_planet = 'foo';
+
+    const expected_available_planets = [...not_selected_planets, current_selected_planet];
+
+    SelectorUtils.lib.getNotSelectedPlanets.mockReturnValueOnce(not_selected_planets);
+    SelectorUtils.lib.getCurrentSelectedPlanet.mockReturnValueOnce(current_selected_planet);
+
+    /**
+     * called with an empty object for 2 reasons:
+     * 1. getAvailablePlanets destructures the received data
+     * 2. getAvailablePlanets orchestrates `getNotSelectedPlanets` & `getCurrentSelectedPlanet`. Both have been mocked.
+     */
+    expect(SelectorUtils.getAvailablePlanets({})).toEqual(expected_available_planets);
+});
+
+it('should correctly compute available planets for no currently selected planet', () => {
+    SelectorUtils.lib.getNotSelectedPlanets = jest.fn();
+    SelectorUtils.lib.getCurrentSelectedPlanet = jest.fn();
+
+    const not_selected_planets = [1, 2, 3];
+    const current_selected_planet = null;
+
+    const expected_available_planets = [...not_selected_planets];
+
+    SelectorUtils.lib.getNotSelectedPlanets.mockReturnValueOnce(not_selected_planets);
+    SelectorUtils.lib.getCurrentSelectedPlanet.mockReturnValueOnce(current_selected_planet);
+
+    /**
+     * called with an empty object for 2 reasons:
+     * 1. getAvailablePlanets destructures the received data
+     * 2. getAvailablePlanets orchestrates `getNotSelectedPlanets` & `getCurrentSelectedPlanet`. Both have been mocked.
+     */
+    expect(SelectorUtils.getAvailablePlanets({})).toEqual(expected_available_planets);
+});
+
+it('should return ONE planet in list for getNotSelectedPlanets', () => {
+    SelectorUtils.lib.getSelectedPlanets = jest.fn();
+
+    const selected_planets = [1, 2, 3];
+    const planets = [
+        {
+            name: 1
+        },
+        {
+            name: 2
+        },
+        {
+            name: 3
+        },
+        {
+            name: 4
+        },
+    ];
+
+    SelectorUtils.lib.getSelectedPlanets.mockReturnValueOnce(selected_planets);
+
+    expect(SelectorUtils.getNotSelectedPlanets(planets)).toEqual([
+        {
+            name: 4
+        }
+    ]);
+});
+
+it('should return ZERO planets in list for getNotSelectedPlanets', () => {
+    SelectorUtils.lib.getSelectedPlanets = jest.fn();
+
+    const selected_planets = [1, 2, 3];
+    const planets = [
+        {
+            name: 1
+        },
+        {
+            name: 2
+        },
+        {
+            name: 3
+        },
+    ];
+
+    SelectorUtils.lib.getSelectedPlanets.mockReturnValueOnce(selected_planets);
+
+    expect(SelectorUtils.getNotSelectedPlanets(planets)).toEqual([]);
+});

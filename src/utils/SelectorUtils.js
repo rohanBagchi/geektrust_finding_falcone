@@ -61,25 +61,16 @@ export function isAllVehiclesSelected(vehicles_form) {
     return true;
 }
 
-/**
- * this aides in mocking during tests.
- * check http://luetkemj.github.io/170421/mocking-modules-in-jest/
- */
-export const lib = {
-    isAllPlanetsSelected,
-    isAllVehiclesSelected
-};
-
 export function getAvailablePlanets({ planets, form, selected_planet }) {
-    const not_selected_planets = getNotSelectedPlanets(planets, form);
-    const current_selected_planet = getCurrentSelectedPlanet(planets, selected_planet);
+    const not_selected_planets = lib.getNotSelectedPlanets(planets, form);
+    const current_selected_planet = lib.getCurrentSelectedPlanet(planets, selected_planet);
     const available_planets = [...not_selected_planets];
     current_selected_planet && available_planets.push(current_selected_planet);
     return available_planets;
 }
 
 export function getNotSelectedPlanets(planets, form) {
-    const selected_planets = getSelectedPlanets(form);
+    const selected_planets = lib.getSelectedPlanets(form);
     return planets.filter(planet => selected_planets.indexOf(planet.name) === -1);
 }
 
@@ -123,3 +114,15 @@ export function getSelectedPlanet(selector, planet_form, planets) {
 
     return planets.filter(planet => planet.name === selected_planet)[0];
 }
+
+/**
+ * this aides in mocking during tests.
+ * check http://luetkemj.github.io/170421/mocking-modules-in-jest/
+ */
+export const lib = {
+    isAllPlanetsSelected,
+    isAllVehiclesSelected,
+    getNotSelectedPlanets,
+    getCurrentSelectedPlanet,
+    getSelectedPlanets
+};
