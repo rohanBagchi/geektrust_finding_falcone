@@ -300,3 +300,136 @@ it('should return ZERO planets in list for getNotSelectedPlanets', () => {
 
     expect(SelectorUtils.getNotSelectedPlanets(planets)).toEqual([]);
 });
+
+it('should return correct planet from list for getCurrentSelectedPlanet', () => {
+    const selected_planet = "foo";
+    const foo_planet = {
+        name: "foo"
+    };
+
+    const planets = [
+        foo_planet,
+        {
+            name: "bar"
+        },
+        {
+            name: "bazz"
+        },
+    ];
+
+    expect(SelectorUtils.getCurrentSelectedPlanet(planets, selected_planet)).toEqual(foo_planet);
+    expect(SelectorUtils.getCurrentSelectedPlanet(planets, "")).toBeUndefined();
+});
+
+it('should return vehicles in list for getAvailableVehicles', () => {
+    SelectorUtils.lib.getSelectedVehicles = jest.fn();
+    SelectorUtils.lib.getSelectedVehicles.mockReturnValueOnce([
+        'bar',
+        'bazz'
+    ]);
+
+    const vehicles = [
+        {
+            name: 'foo',
+            max_distance: 1,
+            total_no: 1
+        },
+        {
+            name: 'bar',
+            max_distance: 1,
+            total_no: 2
+        },
+        {
+            name: 'bazz',
+            max_distance: 1,
+            total_no: 1
+        },
+        {
+            name: 'fooBarBazz',
+            max_distance: 1,
+            total_no: 2
+        },
+    ];
+
+    const expected = [
+        {
+            name: 'foo',
+            max_distance: 1,
+            count: 1
+        },
+        {
+            name: 'bar',
+            max_distance: 1,
+            count: 1 // count updated. original - selected = new count
+        },
+        {
+            name: 'bazz',
+            max_distance: 1,
+            count: 0 // count updated. original - selected = new count
+        },
+        {
+            name: 'fooBarBazz',
+            max_distance: 1,
+            count: 2
+        },
+    ];
+    const form = {};
+    expect(SelectorUtils.getAvailableVehicles({ vehicles, form })).toEqual(expected);
+});
+
+it('should correctly return bool result for shouldRenderVehicleSelector', () => {
+    SelectorUtils.lib.getSelectedPlanetFormData = jest.fn();
+    SelectorUtils.lib.getSelectedPlanetFormData.mockReturnValueOnce({ selected_planet: 'some planet' });
+
+    expect(SelectorUtils.shouldRenderVehicleSelector()).toBeTruthy();
+
+    SelectorUtils.lib.getSelectedPlanetFormData.mockReturnValueOnce('');
+
+    expect(SelectorUtils.shouldRenderVehicleSelector()).toBeFalsy();
+});
+
+it('should correctly return selected planet from form data for getSelectedPlanetFormData', () => {
+    const selector = 'Foo';
+    const planet_form_data = {
+        selected_planet: 'Bar'
+    };
+
+    const form = {
+        [selector]: planet_form_data
+    };
+    expect(SelectorUtils.getSelectedPlanetFormData(selector, form)).toEqual(planet_form_data);
+});
+
+it('should correctly return list of selected planets for getSelectedPlanet', () => {
+    const selector_foo = 'Foo';
+    const selector_bar = 'Bar';
+
+    const foobar_planet = {
+        name: 'FooBar',
+        foo: 'bar',
+        some: 'data'
+    };
+
+    const planets = [
+        foobar_planet,
+        {
+            name: 'Cluck',
+            foo: 'bar',
+            some: 'data'
+        },
+    ];
+
+    const form = {
+        [selector_foo]: {
+            selected_planet: 'Bar'
+        },
+        [selector_bar]: {
+            selected_planet: 'FooBar'
+        },
+    };
+
+    SelectorUtils.lib.getSelectedPlanetFormData = jest.fn();
+    SelectorUtils.lib.getSelectedPlanetFormData.mockReturnValueOnce({ selected_planet: 'FooBar' });
+
+    expect(SelectorUtils.getSelectedPlanet(selector_foo, form, planets)).toEqual(foobar_planet);
+});

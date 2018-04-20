@@ -80,7 +80,7 @@ export function getCurrentSelectedPlanet(planets, selected_planet) {
 }
 
 export function getAvailableVehicles({ vehicles, form }) {
-    const selected_vehicles = getSelectedVehicles(form);
+    const selected_vehicles = lib.getSelectedVehicles(form);
     return vehicles.map(vehicle => {
         let count = vehicle.total_no;
         for (let i = 0; i < selected_vehicles.length; i++) {
@@ -100,7 +100,7 @@ export function getAvailableVehicles({ vehicles, form }) {
 }
 
 export function shouldRenderVehicleSelector(selector, planet_form) {
-    const { selected_planet } = getSelectedPlanetFormData(selector, planet_form);
+    const { selected_planet } = lib.getSelectedPlanetFormData(selector, planet_form);
     return !!selected_planet;
 }
 
@@ -109,7 +109,7 @@ export function getSelectedPlanetFormData(selector, planet_form) {
 }
 
 export function getSelectedPlanet(selector, planet_form, planets) {
-    const { selected_planet } = getSelectedPlanetFormData(selector, planet_form);
+    const { selected_planet } = lib.getSelectedPlanetFormData(selector, planet_form);
     if (!selected_planet) return;
 
     return planets.filter(planet => planet.name === selected_planet)[0];
@@ -124,5 +124,7 @@ export const lib = {
     isAllVehiclesSelected,
     getNotSelectedPlanets,
     getCurrentSelectedPlanet,
-    getSelectedPlanets
+    getSelectedPlanets,
+    getSelectedVehicles,
+    getSelectedPlanetFormData
 };
